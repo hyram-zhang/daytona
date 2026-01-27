@@ -22,7 +22,7 @@ jobs:
           DOCKER_BUILDKIT: 1
         run: |
           # 同时引用基础文件和构建覆盖文件
-          docker compose -f docker-compose.yaml -f docker/docker-compose.build.override.yaml build
+          docker compose -f docker/docker-compose.build.override.yaml build
 
       - name: Save Image to Tar
         run: |
