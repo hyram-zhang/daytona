@@ -1,35 +1,37 @@
-name: Build Daytona via Compose
+name: Build Daytona Image
 
 on:
   workflow_dispatch:
 
 jobs:
-  build-and-export:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Daytona
         uses: actions/checkout@v4
         with:
           repository: daytonaio/daytona
           ref: main
 
       - name: Set up Docker Buildx
-        uses: actions/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v3 # 修正后的正确仓库名
 
-      # 使用 docker-compose 结合 override 文件进行构建
-      - name: Build with Compose
+      - name: Build with Compose Override
+        env:
+          COMPOSE_DOCKER_CLI_BUILD: 1
+          DOCKER_BUILDKIT: 1
         run: |
+          # 同时引用基础文件和构建覆盖文件
           docker compose -f docker-compose.yaml -f docker/docker-compose.build.override.yaml build
 
-      # 将构建好的镜像保存为本地文件
-      # 注意：请根据 override 文件中的 'image' 标签确认镜像名称
-      - name: Save Docker Image
+      - name: Save Image to Tar
         run: |
-          docker save daytona:latest > daytona_full_image.tar
+          # 假设构建出来的镜像名是 daytona/daytona (请根据 override 文件确认)
+          # 如果不确定，可以先执行 docker images 查看
+          docker save daytona/daytona:latest > daytona_local.tar
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: daytona-compose-image
-          path: daytona_full_image.tar
-          retention-days: 1
+          name: daytona-package
+          path: daytona_local.tar
