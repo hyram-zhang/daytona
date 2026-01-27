@@ -9,14 +9,14 @@ jobs:
 
     steps:
       - name: Pull Docker image
-        run: docker pull daytonaio/daytona-api:latest
+        run: docker pull daytonaio/daytona-proxy:latest
 
       - name: Save Docker image to tarball
-        run: docker save daytonaio/daytona-api:latest > daytona-api.tar
+        run: docker save daytonaio/daytona-proxy:latest > daytona-proxy.tar
 
       - name: Upload image as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: daytona-api-image
-          path: daytona-api.tar
+          name: daytona-proxy-image
+          path: daytona-proxy.tar
           retention-days: 5 # 产物保留天数
