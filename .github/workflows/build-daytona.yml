@@ -1,35 +1,35 @@
-name: Build Daytona Image
+name: Build Daytona via Compose
 
 on:
-  workflow_dispatch: # 手动触发构建
+  workflow_dispatch:
 
 jobs:
-  build:
+  build-and-export:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           repository: daytonaio/daytona
-          ref: main # 或者指定特定分支/标签
+          ref: main
 
       - name: Set up Docker Buildx
         uses: actions/setup-buildx-action@v3
 
-      - name: Build and Export to Local
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile # 如果 Dockerfile 在根目录
-          tags: daytona:latest
-          outputs: type=docker,dest=/tmp/daytona_image.tar
-          # 如果项目很大，建议开启缓存以加快后续构建速度
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      # 使用 docker-compose 结合 override 文件进行构建
+      - name: Build with Compose
+        run: |
+          docker compose -f docker-compose.yaml -f docker/docker-compose.build.override.yaml build
+
+      # 将构建好的镜像保存为本地文件
+      # 注意：请根据 override 文件中的 'image' 标签确认镜像名称
+      - name: Save Docker Image
+        run: |
+          docker save daytona:latest > daytona_full_image.tar
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: daytona-local-image
-          path: /tmp/daytona_image.tar
-          retention-days: 1 # 节省存储空间，仅保留1天
+          name: daytona-compose-image
+          path: daytona_full_image.tar
+          retention-days: 1
