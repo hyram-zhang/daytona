@@ -9,14 +9,14 @@ jobs:
 
     steps:
       - name: Pull Docker image
-        run: docker pull daytonaio/daytona-ssh-gateway:latest
+        run: docker pull otel/opentelemetry-collector-contrib:0.138.0
 
       - name: Save Docker image to tarball
-        run: docker save daytonaio/daytona-ssh-gateway:latest > daytona-ssh-gateway.tar
+        run: docker save otel/opentelemetry-collector-contrib:0.138.0 > opentelemetry.tar
 
       - name: Upload image as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: daytona-ssh-gateway-image
-          path: daytona-ssh-gateway.tar
+          name: opentelemetry
+          path: opentelemetry.tar
           retention-days: 5 # 产物保留天数
