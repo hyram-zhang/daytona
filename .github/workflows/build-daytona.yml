@@ -17,5 +17,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: minio
-          path: minio
+          path: minio.tar
           retention-days: 5 # 产物保留天数
