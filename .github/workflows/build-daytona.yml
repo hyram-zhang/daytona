@@ -9,13 +9,13 @@ jobs:
 
     steps:
       - name: Pull Docker image
-        run: docker pull maildev/maildev
+        run: docker pull minio/minio:latest
       - name: Save Docker image to tarball
-        run: docker save maildev/maildev > maildev.tar
+        run: docker save minio/minio:latest > minio.tar
 
       - name: Upload image as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: maildev
-          path: maildev
+          name: minio
+          path: minio
           retention-days: 5 # 产物保留天数
