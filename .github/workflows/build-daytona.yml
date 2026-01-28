@@ -9,13 +9,13 @@ jobs:
 
     steps:
       - name: Pull Docker image
-        run: docker pull minio/minio:latest
+        run: docker pull dexidp/dex:v2.42.0
       - name: Save Docker image to tarball
-        run: docker save minio/minio:latest > minio.tar
+        run: docker save dexidp/dex:v2.42.0 > dex.tar
 
       - name: Upload image as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: minio
-          path: minio.tar
+          name: dex
+          path: dex.tar
           retention-days: 5 # 产物保留天数
