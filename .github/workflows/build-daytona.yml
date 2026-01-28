@@ -9,13 +9,13 @@ jobs:
 
     steps:
       - name: Pull Docker image
-        run: docker pull dexidp/dex:v2.42.0
+        run: docker pull jaegertracing/all-in-one:1.67.0
       - name: Save Docker image to tarball
-        run: docker save dexidp/dex:v2.42.0 > dex.tar
+        run: docker save jaegertracing/all-in-one:1.67.0 > jaegertracing.tar
 
       - name: Upload image as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dex
-          path: dex.tar
+          name: jaegertracing
+          path: jaegertracing.tar
           retention-days: 5 # 产物保留天数
