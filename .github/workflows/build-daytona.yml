@@ -9,13 +9,13 @@ jobs:
 
     steps:
       - name: Pull Docker image
-        run: docker pull maildev/maildev
+        run: docker pull daytonaio/sandbox:0.5.0-slim
       - name: Save Docker image to tarball
-        run: docker save maildev/maildev > maildev.tar
+        run: docker save daytonaio/sandbox:0.5.0-slim > sandbox.tar
 
       - name: Upload image as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: maildev
-          path: maildev.tar
+          name: sandbox
+          path: sandbox.tar
           retention-days: 5 # 产物保留天数
