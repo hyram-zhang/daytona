@@ -9,13 +9,13 @@ jobs:
 
     steps:
       - name: Pull Docker image
-        run: docker pull joxit/docker-registry-ui:main
+        run: docker pull maildev/maildev
       - name: Save Docker image to tarball
-        run: docker save joxit/docker-registry-ui:main > docker-registry-ui.tar
+        run: docker save maildev/maildev > maildev.tar
 
       - name: Upload image as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: docker-registry-ui
-          path: docker-registry-ui.tar
+          name: maildev
+          path: maildev
           retention-days: 5 # 产物保留天数
