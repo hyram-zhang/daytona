@@ -9,13 +9,13 @@ jobs:
 
     steps:
       - name: Pull Docker image
-        run: docker pull dpage/pgadmin4:9.2.0
+        run: docker pull maildev/maildev
       - name: Save Docker image to tarball
-        run: docker save dpage/pgadmin4:9.2.0 > pgadmin4.tar
+        run: docker save maildev/maildev > maildev.tar
 
       - name: Upload image as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: pgadmin4
-          path: pgadmin4.tar
+          name: maildev
+          path: maildev.tar
           retention-days: 5 # 产物保留天数
